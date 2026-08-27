@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="在浏览器本地清理网页链接中的追踪参数，保留页面真正需要的部分。"
+    />
+    <title>链接清理器 · 去掉尾部追踪</title>
+    <link rel="stylesheet" href="./link-cleaner.css?v=20260827-4" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">URL HYGIENE · LOCAL ONLY</p>
+          <h1>把链接变干净。</h1>
+          <p class="subtitle">
+            去掉广告、分析和分享追踪参数，只留下可以直接打开的网页地址。
+          </p>
+        </div>
+        <div class="privacy-note">
+          <span class="privacy-icon" aria-hidden="true">↯</span>
+          <div>
+            <strong>不上传链接</strong>
+            <span>所有处理都在当前浏览器完成</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="workspace-card" aria-labelledby="input-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">STEP 01</p>
+            <h2 id="input-title">粘贴一个网页链接</h2>
+          </div>
+          <button class="text-button" id="pasteButton" type="button">粘贴</button>
+        </div>
+
+        <label class="sr-only" for="urlInput">要清理的网页链接</label>
+        <textarea
+          id="urlInput"
+          rows="4"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="https://example.com/article?id=123&utm_source=wechat&utm_medium=social"
+        ></textarea>
+
+        <div class="controls-row">
+          <fieldset class="mode-switch">
+            <legend>清理方式</legend>
+            <label class="mode-option is-selected">
+              <input type="radio" name="cleanMode" value="safe" checked />
+              <span>
+                <strong>安全清理</strong>
+                <small>只移除高置信度追踪参数</small>
+              </span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="cleanMode" value="extended" />
+              <span>
+                <strong>扩展清理</strong>
+                <small>包含常见来源、联盟参数</small>
+              </span>
+            </label>
+          </fieldset>
+          <button class="primary-button" id="cleanButton" type="button">
+            <span>清理链接</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <p class="hint" id="inputHint">
+          淘宝/天猫只保留 <code>id</code> 和 <code>skuId</code>；京东移动端会转换为标准 PC 链接并保留 SKU ID 的 <code>.html</code>。
+          支持从标题、Markdown 链接和中文标点中自动提取 URL；<code>u.jd.com</code> /
+          <code>3.cn</code> / <code>b23.tv</code> 短链需先启动本地解析助手。
+        </p>
+      </section>
+
+      <section class="result-card is-hidden" id="resultCard" aria-live="polite" aria-labelledby="result-title">
+        <div class="section-heading result-heading">
+          <div>
+            <p class="section-kicker">STEP 02</p>
+            <h2 id="result-title">干净链接</h2>
+          </div>
+          <span class="status-pill" id="statusPill">已完成</span>
+        </div>
+
+        <div class="result-url-wrap">
+          <a id="resultUrl" class="result-url" href="#" target="_blank" rel="noreferrer noopener"></a>
+          <button class="copy-button" id="copyButton" type="button">复制结果</button>
+        </div>
+        <p class="resolved-note" id="resolvedNote"></p>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span>已移除</span>
+            <strong id="removedCount">0</strong>
+            <small>个追踪参数</small>
+          </div>
+          <div class="stat-item">
+            <span>已保留</span>
+            <strong id="keptCount">0</strong>
+            <small>个有用参数</small>
+          </div>
+          <div class="stat-item">
+            <span>链接长度</span>
+            <strong id="lengthChange">0</strong>
+            <small>字符变化</small>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-panel">
+            <div class="detail-title">
+              <span class="dot dot-orange"></span>
+              <h3>已移除的追踪</h3>
+            </div>
+            <div class="tag-list" id="removedList"></div>
+          </div>
+          <div class="detail-panel">
+            <div class="detail-title">
+              <span class="dot dot-blue"></span>
+              <h3>保留的参数</h3>
+            </div>
+            <div class="tag-list" id="keptList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-it-works">
+        <div>
+          <p class="section-kicker">WHAT STAYS</p>
+          <h2>只动追踪，不动内容。</h2>
+        </div>
+        <p>
+          例如 <code>id</code>、<code>page</code>、<code>lang</code>、<code>query</code>
+          等页面参数会原样保留；<code>utm_*</code>、<code>fbclid</code>、<code>gclid</code>
+          等追踪参数会被移除。网址片段（<code>#section</code>）也会保留。
+        </p>
+      </section>
+
+      <footer>链接清理器 · 本地运行 · 不记录、不上传</footer>
+    </main>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="./link-cleaner.js?v=20260827-5"></script>
+  </body>
+</html>
