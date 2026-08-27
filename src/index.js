@@ -3,6 +3,7 @@ const USER_AGENT =
 const MAX_INPUT_LENGTH = 2048;
 const MAX_REDIRECT_HTML_BYTES = 256 * 1024;
 const ALLOWED_SHORT_HOSTS = new Set(["u.jd.com", "3.cn", "b23.tv"]);
+const APP_PATH = "/link";
 
 function jsonResponse(payload, status = 200) {
   return new Response(JSON.stringify(payload), {
@@ -162,6 +163,30 @@ export default {
     const requestUrl = new URL(request.url);
     if (requestUrl.pathname === "/api/resolve") {
       return handleResolve(request);
+    }
+    if (requestUrl.pathname === `${APP_PATH}/api/resolve`) {
+      return handleResolve(request);
+    }
+
+    if (requestUrl.pathname === APP_PATH) {
+      return Response.redirect(new URL(`${APP_PATH}/`, request.url), 308);
+    }
+    if (requestUrl.pathname.startsWith(`${APP_PATH}/`)) {
+      const assetUrl = new URL(request.url);
+      const requestedAssetPath = requestUrl.pathname.slice(APP_PATH.length) || "/";
+      if (["/", "/index.html"].includes(requestedAssetPath)) {
+        assetUrl.pathname = "/link-page.txt";
+        const assetResponse = await env.ASSETS.fetch(new Request(assetUrl, request));
+        const headers = new Headers(assetResponse.headers);
+        headers.set("content-type", "text/html; charset=utf-8");
+        return new Response(assetResponse.body, {
+          status: assetResponse.status,
+          statusText: assetResponse.statusText,
+          headers,
+        });
+      }
+      assetUrl.pathname = requestedAssetPath;
+      return env.ASSETS.fetch(new Request(assetUrl, request));
     }
 
     return env.ASSETS.fetch(request);

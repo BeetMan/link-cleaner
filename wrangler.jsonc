@@ -7,8 +7,18 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/link", "/link/*"]
   },
+  "routes": [
+    {
+      "pattern": "beetya.ng/link",
+      "zone_name": "beetya.ng"
+    },
+    {
+      "pattern": "beetya.ng/link/*",
+      "zone_name": "beetya.ng"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 0.1

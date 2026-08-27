@@ -97,8 +97,13 @@ const keptList = document.getElementById("keptList");
 const resolvedNote = document.getElementById("resolvedNote");
 const inputHint = document.getElementById("inputHint");
 const toast = document.getElementById("toast");
+const hostedBasePath = window.location.pathname === "/link" || window.location.pathname.startsWith("/link/")
+  ? "/link"
+  : "";
 const SHORT_LINK_RESOLVER_ENDPOINT =
-  window.location.protocol === "file:" ? "http://127.0.0.1:8787/api/resolve" : "/api/resolve";
+  window.location.protocol === "file:"
+    ? "http://127.0.0.1:8787/api/resolve"
+    : `${hostedBasePath}/api/resolve`;
 
 let latestCleanUrl = "";
 let toastTimer;

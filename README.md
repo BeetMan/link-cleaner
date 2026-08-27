@@ -1,6 +1,6 @@
 # 链接清理器 Cloudflare 版
 
-这个目录可以把链接清理页面和短链接解析接口一起部署到 Cloudflare Workers。部署完成后，打开 Worker 的网址即可使用，不需要再运行本地 `link-cleaner-server.mjs`。
+这个目录可以把链接清理页面和短链接解析接口一起部署到 Cloudflare Workers。当前配置会把 `https://beetya.ng/link` 路径交给 Worker，部署完成后不需要再运行本地 `link-cleaner-server.mjs`。
 
 ## 首次部署
 
