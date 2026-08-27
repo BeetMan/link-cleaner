@@ -27,6 +27,6 @@ npx wrangler@latest dev
 - 京东 PC：保留到 `.html`。
 - 京东移动链接：转换为 `https://item.jd.com/<SKU>.html`。
 - 京东 `u.jd.com`、`3.cn` 和 B 站 `b23.tv`：先由 Worker 解析跳转，再清理结果。
-- B 站视频：保留 BV 号，以及用户明确指定的 `p`、`t` 参数。
+- B 站视频：保留 BV 号和时间参数 `t`；分 P 参数 `p` 会移除。
 
 短链接解析接口只接受 `u.jd.com`、`3.cn`、`b23.tv`，并且会校验最终目标域名，避免把接口用作任意网址代理。

@@ -81,7 +81,7 @@ const EXTENDED_EXACT_PARAMS = new Set([
 ]);
 
 const TAOBAO_TMALL_ALLOWED_PARAMS = new Set(["id", "skuid"]);
-const BILIBILI_ALLOWED_PARAMS = new Set(["p", "t"]);
+const BILIBILI_ALLOWED_PARAMS = new Set(["t"]);
 
 const input = document.getElementById("urlInput");
 const cleanButton = document.getElementById("cleanButton");
@@ -330,7 +330,7 @@ function cleanUrl(rawValue, mode) {
     }
 
     const videoParams = new URLSearchParams();
-    for (const key of ["p", "t"]) {
+    for (const key of ["t"]) {
       if (selected.has(key)) {
         videoParams.set(key, selected.get(key));
       }
